@@ -11,8 +11,11 @@ const { GRAPHQL_ENDPOINT, ABORT_RESOURCE_TYPES, ABORT_RESOURCE_URL_INCLUDES, ABO
 const { initQueryIds } = require('./query_ids');
 const errors = require('./errors');
 
+const { inputConfig } = require("./input");
+
 async function main() {
-    const input = await Apify.getInput();
+    const input = inputConfig;
+
     const {
         proxy,
         resultsType,
@@ -47,7 +50,7 @@ async function main() {
         Apify.utils.log.warning('Cookies were used, setting maxConcurrency to 1 and using one proxy session!');
         maxConcurrency = 1;
         const session = crypto.createHash('sha256').update(JSON.stringify(loginCookies)).digest('hex').substring(0,16)
-        if (proxy.useApifyProxy) proxySession = proxy.apifyProxySession = `insta_session_${session}`;
+        // if (proxy.useApifyProxy) proxySession = proxy.apifyProxySession = `insta_session_${session}`;
     }
 
     try {
